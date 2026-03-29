@@ -3,328 +3,661 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wassim Nsir — Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <title>Wassim Nsir — Ingénieur Systèmes Embarqués & IoT</title>
+  <meta name="description" content="Wassim Nsir — Ingénieur spécialisé en systèmes embarqués, IoT et développement fullstack. Disponible pour alternance M1 en France." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
- 
+
     :root {
-      --bg: #0a0c0f;
-      --bg2: #111318;
-      --bg3: #181c22;
-      --border: rgba(255,255,255,0.07);
-      --accent: #00e5a0;
-      --accent2: #0ea5e9;
-      --text: #e8eaf0;
-      --muted: #6b7280;
-      --mono: 'Space Mono', monospace;
-      --sans: 'Syne', sans-serif;
+      --bg: #f8f9fb;
+      --bg2: #ffffff;
+      --bg3: #f1f3f7;
+      --border: rgba(0,0,0,0.07);
+      --border-strong: rgba(0,0,0,0.12);
+      --accent: #1a56db;
+      --accent2: #0c4a6e;
+      --accent-light: rgba(26,86,219,0.06);
+      --accent2-light: rgba(12,74,110,0.06);
+      --accent-medium: rgba(26,86,219,0.1);
+      --text: #111827;
+      --text2: #1f2937;
+      --muted: #4b5563;
+      --muted2: #6b7280;
+      --sans: 'DM Sans', 'Inter', sans-serif;
+      --body: 'Inter', sans-serif;
+      --success: #059669;
+      --success-light: rgba(5,150,105,0.08);
     }
- 
+
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: var(--sans);
+      font-family: var(--body);
       min-height: 100vh;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
- 
-    .noise {
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      opacity: 0.4;
+
+    html { scroll-behavior: smooth; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
- 
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Subtle background accent */
+    .bg-accent-bar {
+      position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 200;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; top: 3px; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 2rem;
-      background: rgba(10,12,15,0.85);
-      backdrop-filter: blur(12px);
+      padding: 0.875rem 2.5rem;
+      background: rgba(248,249,251,0.92);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
+      animation: fadeIn 0.5s ease;
     }
- 
-    .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.1em; }
-    .nav-links { display: flex; gap: 2rem; }
+
+    .nav-logo {
+      font-family: var(--sans); font-size: 15px; font-weight: 700;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
     .nav-links a {
-      font-size: 13px; color: var(--muted); text-decoration: none;
-      font-family: var(--mono); letter-spacing: 0.05em;
-      transition: color 0.2s; cursor: pointer;
+      font-size: 13.5px; color: var(--muted); text-decoration: none;
+      font-weight: 500; transition: color 0.3s ease;
+      cursor: pointer; position: relative;
     }
-    .nav-links a:hover { color: var(--text); }
- 
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+      background: var(--accent); border-radius: 2px;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      font-size: 13px; font-weight: 600; padding: 0.5rem 1.25rem;
+      border-radius: 8px; background: var(--accent); color: #fff;
+      text-decoration: none; transition: all 0.3s ease;
+      border: none; cursor: pointer;
+    }
+    .nav-cta:hover { background: #1548b8; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,86,219,0.25); }
+
     section { position: relative; z-index: 1; }
- 
+
     .hero {
       min-height: 100vh;
       display: flex; align-items: center;
-      padding: 6rem 2rem 4rem;
-      max-width: 900px; margin: 0 auto;
+      padding: 7rem 2rem 4rem;
+      max-width: 1000px; margin: 0 auto;
     }
- 
+
     .hero-content { width: 100%; }
- 
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--success-light); color: var(--success);
+      font-size: 12.5px; font-weight: 600; padding: 6px 14px;
+      border-radius: 100px; margin-bottom: 2rem;
+      border: 1px solid rgba(5,150,105,0.12);
+      animation: fadeIn 0.6s ease 0.1s both;
+    }
+    .hero-badge .dot-live {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--success);
+      animation: pulse-live 2s ease-in-out infinite;
+    }
+    @keyframes pulse-live {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero-content h1 {
+      animation: slideRight 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+    }
+
     h1 {
-      font-size: clamp(2.5rem, 7vw, 5rem);
-      font-weight: 800; line-height: 1.05;
-      letter-spacing: -0.02em;
+      font-family: var(--sans);
+      font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+      font-weight: 800; line-height: 1.12;
+      letter-spacing: -0.035em;
+      margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+    h1 .accent { color: var(--accent); }
+
+    .hero-subtitle {
+      font-size: 1.15rem; color: var(--text2);
+      font-weight: 500; margin-bottom: 0.75rem;
+      animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+    }
+
+    .hero-desc {
+      font-size: 0.95rem; color: var(--muted);
+      max-width: 560px; line-height: 1.75;
+      margin-bottom: 2rem; font-weight: 400;
+      animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both;
+    }
+
+    .hero-cta {
+      display: flex; gap: 0.75rem; flex-wrap: wrap;
+      animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+    }
+
+    .btn {
+      font-family: var(--sans); font-size: 14px; font-weight: 600;
+      padding: 0.75rem 1.5rem; border-radius: 10px;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border: none; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 2px 8px rgba(26,86,219,0.2);
+    }
+    .btn-primary:hover { background: #1548b8; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,86,219,0.3); }
+    .btn-outline {
+      background: var(--bg2); color: var(--text);
+      border: 1px solid var(--border-strong); box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+
+    .hero-metrics {
+      display: flex; gap: 2.5rem; margin-top: 3rem; flex-wrap: wrap;
+      animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .metric {
+      display: flex; flex-direction: column;
+    }
+    .metric-value {
+      font-family: var(--sans); font-size: 1.5rem; font-weight: 800;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+    .metric-label {
+      font-size: 12.5px; color: var(--muted2); font-weight: 500; margin-top: 2px;
+    }
+
+    .section-wrapper { max-width: 1000px; margin: 0 auto; padding: 5rem 2rem; }
+
+    .section-header {
+      display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem;
+    }
+    .section-number {
+      font-family: var(--sans); font-size: 13px; color: var(--accent);
+      font-weight: 700; letter-spacing: 0.02em;
+    }
+    .section-line {
+      flex: 1; height: 1px; background: var(--border);
+    }
+
+    h2 {
+      font-family: var(--sans);
+      font-size: 1.85rem; font-weight: 700; margin-bottom: 0.25rem;
+      letter-spacing: -0.02em; color: var(--text);
+    }
+    .section-desc {
+      font-size: 0.92rem; color: var(--muted); margin-bottom: 2.5rem; max-width: 500px;
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+    }
+    .skill-cell {
+      background: var(--bg2); padding: 1.5rem; border-radius: 12px;
+      border: 1px solid var(--border);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .skill-cell:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); border-color: var(--accent-medium); }
+    .skill-category {
+      font-size: 11.5px; color: var(--accent); font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem;
+    }
+    .skill-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text2); }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag {
+      font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 6px;
+      background: var(--bg3); color: var(--muted);
+      transition: all 0.2s ease;
+    }
+    .tag:hover { background: var(--accent-light); color: var(--accent); }
+    .tag.accent { background: var(--accent-light); color: var(--accent); }
+
+    /* Projects */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+    .project-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1.75rem;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+      display: flex; flex-direction: column;
+    }
+    .project-card:hover { border-color: var(--accent-medium); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.07); }
+    .project-type {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.75rem;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .project-type::before {
+      content: ''; display: block; width: 6px; height: 6px; border-radius: 2px;
+      background: var(--accent);
+    }
+    .project-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
+    .project-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.25rem; flex: 1; }
+    .project-results {
+      font-size: 0.82rem; color: var(--text2); font-weight: 500; padding: 0.75rem;
+      background: var(--bg3); border-radius: 8px; margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; }
+
+    /* Experience */
+    .exp-list { display: flex; flex-direction: column; }
+    .exp-item {
+      display: grid; grid-template-columns: 160px 1fr; gap: 2rem;
+      padding: 1.75rem 0; border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    .exp-item:hover { background: linear-gradient(90deg, var(--accent-light), transparent); padding-left: 1rem; border-radius: 8px; }
+    .exp-item:first-child { border-top: 1px solid var(--border); }
+    .exp-date { font-size: 12.5px; color: var(--muted2); font-weight: 500; padding-top: 3px; }
+    .exp-company { font-size: 13px; color: var(--accent); font-weight: 700; margin-bottom: 2px; letter-spacing: -0.01em; }
+    .exp-location { font-size: 12px; color: var(--muted2); margin-bottom: 6px; }
+    .exp-role { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--text); }
+    .exp-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
+    .exp-highlight {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 12px; color: var(--accent); font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    /* Certifications */
+    .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+    .cert-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+      padding: 1.25rem; display: flex; align-items: center; gap: 14px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    }
+    .cert-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.05); }
+    .cert-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      background: var(--accent-light);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      font-size: 11px; color: var(--accent); font-weight: 800; letter-spacing: -0.02em;
+    }
+    .cert-name { font-size: 0.85rem; font-weight: 600; line-height: 1.35; color: var(--text2); }
+    .cert-issuer { font-size: 0.78rem; color: var(--muted2); margin-top: 2px; }
+
+    /* Contact */
+    .contact-section {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+      overflow: hidden;
+    }
+    .contact-inner {
+      padding: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+    }
+    .contact-info h3 {
+      font-family: var(--sans); font-size: 1.5rem; font-weight: 700;
+      margin-bottom: 0.75rem; color: var(--text);
+    }
+    .contact-info p {
+      font-size: 0.9rem; color: var(--muted); line-height: 1.7; margin-bottom: 2rem;
+    }
+    .contact-detail {
+      display: flex; align-items: center; gap: 12px;
+      padding: 0.75rem 0; font-size: 0.9rem;
+    }
+    .contact-detail-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--accent-light); display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--accent); flex-shrink: 0;
+    }
+    .contact-detail-text { color: var(--text2); font-weight: 500; }
+    .contact-detail-label { font-size: 12px; color: var(--muted2); font-weight: 400; }
+    .contact-actions {
+      display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 1rem;
+    }
+    .contact-actions .btn { width: 100%; justify-content: center; padding: 0.875rem 1.5rem; }
+
+    .availability-banner {
+      background: var(--success-light);
+      border: 1px solid rgba(5,150,105,0.12);
+      border-radius: 10px; padding: 1rem 1.25rem;
+      display: flex; align-items: center; gap: 10px;
       margin-bottom: 1.5rem;
     }
- 
-    .highlight { color: var(--accent); }
- 
-    .hero-desc {
-      font-size: 1.05rem; color: var(--muted);
-      max-width: 540px; line-height: 1.75;
-      margin-bottom: 2.5rem; font-weight: 400;
+    .availability-banner .dot-live {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--success);
+      animation: pulse-live 2s ease-in-out infinite;
     }
- 
-    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
- 
-    .btn {
-      font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
-      padding: 0.75rem 1.5rem; border-radius: 4px;
-      cursor: pointer; text-decoration: none;
-      transition: all 0.2s; border: none; display: inline-block;
+    .availability-text {
+      font-size: 0.85rem; font-weight: 600; color: var(--success);
     }
-    .btn-primary { background: var(--accent); color: #0a0c0f; font-weight: 700; }
-    .btn-primary:hover { opacity: 0.85; }
-    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
-    .btn-outline:hover { border-color: rgba(255,255,255,0.2); background: var(--bg3); }
- 
-    .grid-bg {
-      position: absolute; inset: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(0,229,160,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,229,160,0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+
+    /* Education */
+    .education-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+      padding: 1.75rem; margin-bottom: 1.5rem;
     }
- 
-    .status-bar { display: flex; gap: 2rem; margin-top: 3rem; flex-wrap: wrap; }
-    .status-item { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
-    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
- 
-    .section-wrapper { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
- 
-    .section-label {
-      font-family: var(--mono); font-size: 11px; color: var(--accent);
-      letter-spacing: 0.2em; margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 8px;
+    .education-card .edu-degree {
+      font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 4px;
     }
-    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
- 
-    h2 { font-size: 2rem; font-weight: 800; margin-bottom: 3rem; letter-spacing: -0.01em; }
- 
-    .skills-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+    .education-card .edu-school {
+      font-size: 0.88rem; color: var(--accent); font-weight: 600; margin-bottom: 4px;
     }
-    .skill-cell { background: var(--bg2); padding: 1.5rem; transition: background 0.2s; }
-    .skill-cell:hover { background: var(--bg3); }
-    .skill-icon { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
-    .skill-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
-    .tag { font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 3px; background: rgba(0,229,160,0.08); color: var(--accent); border: 1px solid rgba(0,229,160,0.15); }
-    .tag.blue { background: rgba(14,165,233,0.08); color: var(--accent2); border-color: rgba(14,165,233,0.15); }
- 
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-    .project-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; transition: border-color 0.2s, transform 0.2s; }
-    .project-card:hover { border-color: rgba(0,229,160,0.3); transform: translateY(-2px); }
-    .project-num { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 1rem; letter-spacing: 0.1em; }
-    .project-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .project-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
-    .project-stack { display: flex; flex-wrap: wrap; gap: 4px; }
- 
-    .exp-list { display: flex; flex-direction: column; }
-    .exp-item { display: grid; grid-template-columns: 140px 1fr; gap: 2rem; padding: 2rem 0; border-bottom: 1px solid var(--border); }
-    .exp-item:first-child { border-top: 1px solid var(--border); }
-    .exp-date { font-family: var(--mono); font-size: 11px; color: var(--muted); padding-top: 3px; }
-    .exp-company { font-size: 0.8rem; color: var(--accent); font-family: var(--mono); margin-bottom: 4px; }
-    .exp-role { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .exp-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
- 
-    .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
-    .cert-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.25rem; display: flex; align-items: flex-start; gap: 12px; }
-    .cert-icon { width: 32px; height: 32px; border-radius: 6px; background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--mono); font-size: 9px; color: var(--accent); font-weight: 700; }
-    .cert-name { font-size: 0.82rem; font-weight: 600; line-height: 1.4; }
-    .cert-issuer { font-size: 0.75rem; color: var(--muted); font-family: var(--mono); margin-top: 2px; }
- 
-    .contact-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 3rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.5rem; }
-    .contact-email { font-family: var(--mono); font-size: 1.1rem; color: var(--accent); }
-    .contact-links { display: flex; gap: 1rem; }
- 
-    footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; max-width: 900px; margin: 0 auto; font-family: var(--mono); font-size: 11px; color: var(--muted); }
- 
-    .terminal-line { font-family: var(--mono); font-size: 12px; color: var(--muted); background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 1rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 8px; }
-    .terminal-line span { color: var(--accent); }
- 
+    .education-card .edu-details {
+      font-size: 0.82rem; color: var(--muted); line-height: 1.6;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 2rem; display: flex; justify-content: space-between;
+      align-items: center; max-width: 1000px; margin: 0 auto;
+      font-size: 12.5px; color: var(--muted2);
+    }
+    footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+    footer a:hover { text-decoration: underline; }
+
+    /* Mobile nav */
+    .nav-toggle {
+      display: none; background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .nav-toggle span {
+      display: block; width: 20px; height: 2px; background: var(--text);
+      margin: 4px 0; transition: all 0.3s ease; border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
     @media (max-width: 600px) {
       .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
-      nav { padding: 1rem; }
-      .nav-links { gap: 1rem; }
+      nav { padding: 0.75rem 1.25rem; }
+      .nav-links {
+        display: none; position: fixed; top: 52px; left: 0; right: 0;
+        background: rgba(248,249,251,0.98); backdrop-filter: blur(20px);
+        flex-direction: column; padding: 1.5rem; gap: 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: block; }
+      .nav-links a { font-size: 14px; }
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .section-wrapper { padding: 3.5rem 1.5rem; }
+      .contact-inner { padding: 2rem 1.5rem; }
+      .hero-metrics { gap: 1.5rem; }
+      h1 { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
- 
-<div class="noise"></div>
- 
+
+<div class="bg-accent-bar"></div>
+
 <nav>
-  <div class="nav-logo">WN.DEV</div>
+  <div class="nav-logo">Wassim <span>Nsir</span></div>
+  <button class="nav-toggle" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
   <div class="nav-links">
-    <a href="#about">about</a>
-    <a href="#projects">projects</a>
-    <a href="#experience">xp</a>
-    <a href="#contact">contact</a>
+    <a href="#about">Profil</a>
+    <a href="#skills">Compétences</a>
+    <a href="#projects">Réalisations</a>
+    <a href="#experience">Expériences</a>
+    <a href="#contact" class="nav-cta">Prendre contact</a>
   </div>
 </nav>
- 
+
 <section class="hero" id="about">
-  <div class="grid-bg"></div>
   <div class="hero-content">
-    <h1>Wassim<br><span class="highlight">Nsir</span></h1>
+    <div class="hero-badge"><div class="dot-live"></div> Disponible pour alternance M1 — septembre 2026</div>
+    <h1>Ingénieur Systèmes<br>Embarqués <span class="accent">& IoT</span></h1>
+    <p class="hero-subtitle">Conception hardware, développement logiciel et solutions connectées de bout en bout.</p>
     <p class="hero-desc">
-      Ingénieur en systèmes embarqués & IoT. Passionné par l'électronique, le développement bas niveau et les interfaces intelligentes. Licence EEA — FSM Monastir.
+      Diplômé en Électronique, Électrotechnique et Automatique (FSM Monastir), je conçois des systèmes embarqués fiables — du design PCB à l'interface utilisateur — avec une approche orientée résultats et qualité industrielle.
     </p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="https://github.com/wassim-24" target="_blank">github.com/wassim-24</a>
-      <a class="btn btn-outline" href="#contact">Me contacter</a>
+      <a class="btn btn-primary" href="#contact">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Discutons de votre projet
+      </a>
+      <a class="btn btn-outline" href="https://github.com/wassim-24" target="_blank">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
     </div>
-    <div class="status-bar">
-      <div class="status-item"><div class="dot"></div> Monastir, Tunisie</div>
-      <div class="status-item"><div class="dot"></div> Français · Anglais C1</div>
-      <div class="status-item"><div class="dot"></div> Disponible sept. 2026</div>
+    <div class="hero-metrics">
+      <div class="metric">
+        <div class="metric-value">6+</div>
+        <div class="metric-label">Projets livrés</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">3</div>
+        <div class="metric-label">Expériences pro.</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">6</div>
+        <div class="metric-label">Certifications</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value">C1</div>
+        <div class="metric-label">Anglais certifié</div>
+      </div>
     </div>
   </div>
 </section>
- 
+
 <section id="skills">
-  <div class="section-wrapper">
-    <div class="section-label">01 — compétences</div>
-    <h2>Stack technique</h2>
-    <div class="terminal-line"><span>$</span> cat skills.json | grep --color=auto "embedded|iot|python"</div>
+  <div class="section-wrapper animate-on-scroll">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <h2>Compétences techniques</h2>
+      <div class="section-line"></div>
+    </div>
     <div class="skills-grid">
       <div class="skill-cell">
-        <div class="skill-icon">[ HARDWARE ]</div>
-        <div class="skill-name">Embarqué & Hardware</div>
-        <div class="skill-tags"><span class="tag">Raspberry Pi 4</span><span class="tag">PCB Design</span><span class="tag">Smbus</span><span class="tag">IoT</span></div>
+        <div class="skill-category">Embarqué & Hardware</div>
+        <div class="skill-name">Conception de systèmes embarqués</div>
+        <div class="skill-tags">
+          <span class="tag accent">Raspberry Pi 4</span><span class="tag accent">PCB Design</span><span class="tag">SMBus / I²C</span><span class="tag">IoT</span>
+        </div>
       </div>
       <div class="skill-cell">
-        <div class="skill-icon">[ SOFTWARE ]</div>
-        <div class="skill-name">Développement</div>
-        <div class="skill-tags"><span class="tag">Python</span><span class="tag">Tkinter</span><span class="tag">Django</span><span class="tag blue">Node.js</span><span class="tag blue">JavaScript</span></div>
+        <div class="skill-category">Développement</div>
+        <div class="skill-name">Langages & Frameworks</div>
+        <div class="skill-tags">
+          <span class="tag accent">Python</span><span class="tag">Tkinter</span><span class="tag accent">Django</span><span class="tag">Node.js</span><span class="tag">JavaScript</span>
+        </div>
       </div>
       <div class="skill-cell">
-        <div class="skill-icon">[ WEB ]</div>
-        <div class="skill-name">Web & Bases de données</div>
-        <div class="skill-tags"><span class="tag blue">MongoDB</span><span class="tag blue">Firebase</span><span class="tag">HTML/CSS</span><span class="tag">REST API</span></div>
+        <div class="skill-category">Web & Données</div>
+        <div class="skill-name">Bases de données & API</div>
+        <div class="skill-tags">
+          <span class="tag">MongoDB</span><span class="tag">Firebase</span><span class="tag">MySQL</span><span class="tag accent">REST API</span><span class="tag">HTML/CSS</span>
+        </div>
       </div>
       <div class="skill-cell">
-        <div class="skill-icon">[ SYSADMIN ]</div>
-        <div class="skill-name">Sécurité & Système</div>
-        <div class="skill-tags"><span class="tag">BitLocker</span><span class="tag">Active Directory</span><span class="tag">PowerShell</span><span class="tag blue">Azure AI-900</span></div>
+        <div class="skill-category">Sécurité & Systèmes</div>
+        <div class="skill-name">Administration & Déploiement</div>
+        <div class="skill-tags">
+          <span class="tag accent">BitLocker</span><span class="tag">Active Directory</span><span class="tag">PowerShell</span><span class="tag">Windows Server</span>
+        </div>
       </div>
       <div class="skill-cell">
-        <div class="skill-icon">[ DESIGN ]</div>
-        <div class="skill-name">UI/UX & Outils</div>
-        <div class="skill-tags"><span class="tag">Figma</span><span class="tag">Balsamiq</span><span class="tag blue">Git / GitHub</span><span class="tag">Postman</span></div>
+        <div class="skill-category">Outils & Design</div>
+        <div class="skill-name">Prototypage & Versioning</div>
+        <div class="skill-tags">
+          <span class="tag">Figma</span><span class="tag">Balsamiq</span><span class="tag accent">Git / GitHub</span><span class="tag">Postman</span>
+        </div>
       </div>
       <div class="skill-cell">
-        <div class="skill-icon">[ LANGUES ]</div>
-        <div class="skill-name">Langues</div>
-        <div class="skill-tags"><span class="tag">Arabe</span><span class="tag">Français</span><span class="tag blue">Anglais C1</span><span class="tag">Allemand</span></div>
+        <div class="skill-category">Langues</div>
+        <div class="skill-name">Communication multilingue</div>
+        <div class="skill-tags">
+          <span class="tag">Arabe (natif)</span><span class="tag accent">Français (courant)</span><span class="tag accent">Anglais C1</span><span class="tag">Allemand (notions)</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
- 
+
 <section id="projects">
-  <div class="section-wrapper">
-    <div class="section-label">02 — projets</div>
-    <h2>Projets sélectionnés</h2>
+  <div class="section-wrapper animate-on-scroll">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <h2>Réalisations</h2>
+      <div class="section-line"></div>
+    </div>
+    <p class="section-desc">Une sélection de projets démontrant ma capacité à mener un développement de bout en bout.</p>
     <div class="projects-grid">
       <div class="project-card">
-        <div class="project-num">001 — HARDWARE</div>
-        <div class="project-title">Mini-Testeur Électronique</div>
-        <div class="project-desc">Testeur de modules électroniques sur Raspberry Pi 4 avec interface graphique, conception PCB et authentification Firebase.</div>
-        <div class="project-stack"><span class="tag">Python</span><span class="tag">Tkinter</span><span class="tag">PCB</span><span class="tag blue">Firebase</span></div>
+        <div class="project-type">Systèmes embarqués</div>
+        <div class="project-title">Mini-Testeur de Modules Électroniques</div>
+        <div class="project-desc">Banc de test automatisé sur Raspberry Pi 4 avec interface graphique, conception de PCB sur mesure et traçabilité des résultats via Firebase.</div>
+        <div class="project-results">Résultat : réduction du temps de test unitaire, traçabilité complète des résultats en base de données.</div>
+        <div class="project-stack"><span class="tag accent">Python</span><span class="tag">Tkinter</span><span class="tag accent">PCB</span><span class="tag">Firebase</span></div>
       </div>
       <div class="project-card">
-        <div class="project-num">002 — SECURITY</div>
+        <div class="project-type">Sécurité informatique</div>
         <div class="project-title">BitLocker Network Unlock</div>
-        <div class="project-desc">Déploiement chiffrement disque XTS-AES 256-bit en entreprise, GPO Active Directory, PKI et audit PowerShell automatisé.</div>
-        <div class="project-stack"><span class="tag">Windows Server</span><span class="tag">AD</span><span class="tag blue">PowerShell</span></div>
+        <div class="project-desc">Déploiement du chiffrement XTS-AES 256-bit à l'échelle d'un parc informatique : GPO Active Directory, infrastructure PKI et audit automatisé PowerShell.</div>
+        <div class="project-results">Résultat : conformité sécurité sur l'ensemble du parc machines, processus de déverrouillage réseau opérationnel.</div>
+        <div class="project-stack"><span class="tag accent">Windows Server</span><span class="tag">Active Directory</span><span class="tag">PowerShell</span></div>
       </div>
       <div class="project-card">
-        <div class="project-num">003 — FULLSTACK</div>
-        <div class="project-title">Plateforme Réservation Stades</div>
-        <div class="project-desc">Site responsive avec agenda 7 jours, réservation AJAX, gestion CRUD propriétaires/locataires, annulation 48h.</div>
-        <div class="project-stack"><span class="tag">Django</span><span class="tag blue">MySQL</span><span class="tag">AJAX</span><span class="tag">Tailwind</span></div>
+        <div class="project-type">Fullstack</div>
+        <div class="project-title">Plateforme de Réservation de Stades</div>
+        <div class="project-desc">Application web responsive avec agenda 7 jours, réservation en temps réel (AJAX), gestion multi-rôles (propriétaires/locataires) et politique d'annulation 48h.</div>
+        <div class="project-results">Résultat : gestion complète du cycle de réservation, interface intuitive pour deux types d'utilisateurs.</div>
+        <div class="project-stack"><span class="tag accent">Django</span><span class="tag">MySQL</span><span class="tag">AJAX</span><span class="tag">Tailwind CSS</span></div>
       </div>
       <div class="project-card">
-        <div class="project-num">004 — GAME DEV</div>
-        <div class="project-title">Two Player Tetris</div>
-        <div class="project-desc">Jeu Tetris multijoueur en Python avec Pygame, gestion indépendante de 2 joueurs, collisions, rotations et score.</div>
-        <div class="project-stack"><span class="tag">Python</span><span class="tag">Pygame</span><span class="tag blue">OOP</span></div>
+        <div class="project-type">Développement logiciel</div>
+        <div class="project-title">Tetris Multijoueur</div>
+        <div class="project-desc">Jeu Tetris en local pour deux joueurs simultanés avec gestion indépendante des grilles, système de collision, rotations et comptage de score.</div>
+        <div class="project-results">Résultat : architecture orientée objet propre, gameplay fluide en simultané.</div>
+        <div class="project-stack"><span class="tag accent">Python</span><span class="tag">Pygame</span><span class="tag">POO</span></div>
       </div>
       <div class="project-card">
-        <div class="project-num">005 — FREELANCE</div>
+        <div class="project-type">Client livré</div>
         <div class="project-title">E-commerce Oasis de Fruits</div>
-        <div class="project-desc">Plateforme e-commerce complète pour client français (Dreux). Gestion produits, panier, auth et générateur de factures PDF.</div>
-        <div class="project-stack"><span class="tag blue">Node.js</span><span class="tag blue">MongoDB</span><span class="tag">HTML/CSS</span></div>
+        <div class="project-desc">Plateforme e-commerce complète pour un client professionnel à Dreux (France) : catalogue produits, panier, authentification et génération automatique de factures PDF.</div>
+        <div class="project-results">Résultat : solution livrée et déployée en production pour un usage commercial quotidien.</div>
+        <div class="project-stack"><span class="tag accent">Node.js</span><span class="tag">MongoDB</span><span class="tag">HTML/CSS</span></div>
       </div>
       <div class="project-card">
-        <div class="project-num">006 — UI/UX</div>
-        <div class="project-title">App Covoiturage Mobile</div>
-        <div class="project-desc">Recherche utilisateur, persona, wireframes Balsamiq et maquettes haute fidélité Figma pour une app de covoiturage.</div>
-        <div class="project-stack"><span class="tag">Figma</span><span class="tag">Balsamiq</span><span class="tag blue">UX Research</span></div>
+        <div class="project-type">UX Design</div>
+        <div class="project-title">Application de Covoiturage</div>
+        <div class="project-desc">Recherche utilisateur complète, persona, wireframes basse fidélité (Balsamiq) et maquettes haute fidélité (Figma) pour une application mobile de covoiturage.</div>
+        <div class="project-results">Résultat : parcours utilisateur validé, prototypes interactifs prêts pour le développement.</div>
+        <div class="project-stack"><span class="tag accent">Figma</span><span class="tag">Balsamiq</span><span class="tag">UX Research</span></div>
       </div>
     </div>
   </div>
 </section>
- 
+
 <section id="experience">
-  <div class="section-wrapper">
-    <div class="section-label">03 — expérience</div>
-    <h2>Parcours</h2>
+  <div class="section-wrapper animate-on-scroll">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <h2>Expériences professionnelles</h2>
+      <div class="section-line"></div>
+    </div>
     <div class="exp-list">
       <div class="exp-item">
-        <div class="exp-date">Jan–Mar 2025</div>
+        <div class="exp-date">Jan. — Mars 2025</div>
         <div>
-          <div class="exp-company">OASIS DE FRUITS — Dreux, France</div>
-          <div class="exp-role">Développeur Freelance</div>
-          <div class="exp-desc">Développement complet d'une plateforme e-commerce et d'un générateur de factures PDF pour un client français.</div>
+          <div class="exp-company">OASIS DE FRUITS</div>
+          <div class="exp-location">Dreux, France</div>
+          <div class="exp-role">Développeur Fullstack — Mission Freelance</div>
+          <div class="exp-desc">Développement et livraison d'une plateforme e-commerce sur mesure incluant gestion de catalogue, panier, authentification et génération automatique de factures PDF. Solution déployée en production.</div>
+          <div class="exp-highlight">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Projet livré et en exploitation
+          </div>
         </div>
       </div>
       <div class="exp-item">
-        <div class="exp-date">Fév–Mai 2024</div>
+        <div class="exp-date">Fév. — Mai 2024</div>
         <div>
-          <div class="exp-company">ELECTROCONTACT — Ksarhlel</div>
-          <div class="exp-role">Stage PFE Licence — Systèmes Embarqués</div>
-          <div class="exp-desc">Développement d'un mini-testeur de modules électroniques : PCB, GUI Python (Tkinter), Raspberry Pi 4, Firebase.</div>
+          <div class="exp-company">ELECTROCONTACT</div>
+          <div class="exp-location">Ksarhlel, Tunisie</div>
+          <div class="exp-role">Stagiaire PFE — Systèmes Embarqués</div>
+          <div class="exp-desc">Conception et développement d'un banc de test automatisé de modules électroniques : design PCB, interface graphique Python (Tkinter), intégration Raspberry Pi 4 et backend Firebase pour la traçabilité.</div>
+          <div class="exp-highlight">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Projet de fin d'études — Licence EEA
+          </div>
         </div>
       </div>
       <div class="exp-item">
-        <div class="exp-date">Août–Sep 2023</div>
+        <div class="exp-date">Août — Sep. 2023</div>
         <div>
-          <div class="exp-company">TUNISAIR TECHNICS — Monastir</div>
-          <div class="exp-role">Stage d'été — Maintenance Aéronautique</div>
-          <div class="exp-desc">Visites quotidiennes aéronefs, conception de compartiments et maintenance APU (Auxiliary Power Unit).</div>
+          <div class="exp-company">TUNISAIR TECHNICS</div>
+          <div class="exp-location">Monastir, Tunisie</div>
+          <div class="exp-role">Stagiaire — Maintenance Aéronautique</div>
+          <div class="exp-desc">Participation aux visites quotidiennes d'aéronefs, conception de compartiments techniques et maintenance de l'APU (Auxiliary Power Unit). Environnement industriel réglementé.</div>
+          <div class="exp-highlight">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Environnement aéronautique certifié
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
- 
+
+<section id="education">
+  <div class="section-wrapper animate-on-scroll">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <h2>Formation</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="education-card">
+      <div class="edu-degree">Licence en Électronique, Électrotechnique et Automatique (EEA)</div>
+      <div class="edu-school">Faculté des Sciences de Monastir (FSM)</div>
+      <div class="edu-details">Formation couvrant l'électronique analogique et numérique, les systèmes embarqués, l'automatique et les télécommunications. Projet de fin d'études réalisé en entreprise (Electrocontact).</div>
+    </div>
+  </div>
+</section>
+
 <section id="certifications">
-  <div class="section-wrapper">
-    <div class="section-label">04 — certifications</div>
-    <h2>Certifications</h2>
+  <div class="section-wrapper animate-on-scroll">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <h2>Certifications</h2>
+      <div class="section-line"></div>
+    </div>
     <div class="certs-grid">
       <div class="cert-card"><div class="cert-icon">AZ</div><div><div class="cert-name">Azure AI Fundamentals (AI-900)</div><div class="cert-issuer">Microsoft — 2025</div></div></div>
-      <div class="cert-card"><div class="cert-icon">C1</div><div><div class="cert-name">CEFR English Test (C1)</div><div class="cert-issuer">EF Standard English Test</div></div></div>
+      <div class="cert-card"><div class="cert-icon">C1</div><div><div class="cert-name">CEFR English C1</div><div class="cert-issuer">EF Standard English Test</div></div></div>
       <div class="cert-card"><div class="cert-icon">PY</div><div><div class="cert-name">Python for Data Science</div><div class="cert-issuer">Sololearn</div></div></div>
       <div class="cert-card"><div class="cert-icon">IoT</div><div><div class="cert-name">IoT & Embedded Systems</div><div class="cert-issuer">Coursera</div></div></div>
       <div class="cert-card"><div class="cert-icon">WEB</div><div><div class="cert-name">HTML · CSS · JS · PHP · MySQL</div><div class="cert-issuer">Shiyar Academy / Sololearn</div></div></div>
@@ -332,27 +665,112 @@
     </div>
   </div>
 </section>
- 
+
 <section id="contact">
-  <div class="section-wrapper">
-    <div class="section-label">05 — contact</div>
-    <h2>Me contacter</h2>
-    <div class="contact-box">
-      <div style="font-size:0.9rem;color:var(--muted);font-family:var(--mono);">// Ouvert aux opportunités M1 en France (alternance bienvenue)</div>
-      <div class="contact-email">wassimnsir62@gmail.com</div>
-      <div style="font-family:var(--mono);font-size:13px;color:var(--muted)">(+216) 55042284</div>
-      <div class="contact-links">
-        <a class="btn btn-primary" href="https://github.com/wassim-24" target="_blank">GitHub</a>
-        <a class="btn btn-outline" href="mailto:wassimnsir62@gmail.com">Email</a>
+  <div class="section-wrapper animate-on-scroll">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <h2>Contact</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-section">
+      <div class="contact-inner">
+        <div class="contact-info">
+          <div class="availability-banner">
+            <div class="dot-live"></div>
+            <span class="availability-text">Disponible pour alternance M1 — Septembre 2026</span>
+          </div>
+          <h3>Travaillons ensemble</h3>
+          <p>Je recherche une alternance en Master 1 en France dans le domaine des systèmes embarqués, de l'IoT ou du développement logiciel. Ouvert également aux missions freelance.</p>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-detail-label">Email</div>
+              <div class="contact-detail-text">wassimnsir62@gmail.com</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div>
+              <div class="contact-detail-label">Téléphone</div>
+              <div class="contact-detail-text">(+216) 55 042 284</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="contact-detail-label">Localisation</div>
+              <div class="contact-detail-text">Monastir, Tunisie — Mobile en France</div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-actions">
+          <a class="btn btn-primary" href="mailto:wassimnsir62@gmail.com">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Envoyer un email
+          </a>
+          <a class="btn btn-outline" href="https://github.com/wassim-24" target="_blank">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            Voir mes projets sur GitHub
+          </a>
+          <a class="btn btn-outline" href="tel:+21655042284">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            Appeler directement
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </section>
- 
+
 <footer>
-  <span>© 2025 Wassim Nsir</span>
-  <span style="color:var(--accent)">wassim-24.github.io</span>
+  <span>&copy; 2025 Wassim Nsir — Tous droits réservés</span>
+  <a href="https://github.com/wassim-24" target="_blank">github.com/wassim-24</a>
 </footer>
- 
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = '0.1s';
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+  // Staggered animation for cards within sections
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const cards = entry.target.querySelectorAll('.skill-cell, .project-card, .cert-card, .exp-item, .education-card');
+        cards.forEach((card, i) => {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(16px)';
+          card.style.transition = `opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.07}s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${i * 0.07}s`;
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            });
+          });
+        });
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+
+  document.querySelectorAll('.skills-grid, .projects-grid, .certs-grid, .exp-list').forEach(el => cardObserver.observe(el));
+</script>
+
 </body>
 </html>
