@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wassim Nsir — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+    :root {
+      --bg: #0a0c0f;
+      --bg2: #111318;
+      --bg3: #181c22;
+      --border: rgba(255,255,255,0.07);
+      --accent: #00e5a0;
+      --accent2: #0ea5e9;
+      --text: #e8eaf0;
+      --muted: #6b7280;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Syne', sans-serif;
+    }
+ 
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+ 
+    .noise {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.4;
+    }
+ 
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(10,12,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+ 
+    .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.1em; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      font-family: var(--mono); letter-spacing: 0.05em;
+      transition: color 0.2s; cursor: pointer;
+    }
+    .nav-links a:hover { color: var(--text); }
+ 
+    section { position: relative; z-index: 1; }
+ 
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 6rem 2rem 4rem;
+      max-width: 900px; margin: 0 auto;
+    }
+ 
+    .hero-content { width: 100%; }
+ 
+    h1 {
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+ 
+    .highlight { color: var(--accent); }
+ 
+    .hero-desc {
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 540px; line-height: 1.75;
+      margin-bottom: 2.5rem; font-weight: 400;
+    }
+ 
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+ 
+    .btn {
+      font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em;
+      padding: 0.75rem 1.5rem; border-radius: 4px;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s; border: none; display: inline-block;
+    }
+    .btn-primary { background: var(--accent); color: #0a0c0f; font-weight: 700; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.2); background: var(--bg3); }
+ 
+    .grid-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,229,160,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,160,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+    }
+ 
+    .status-bar { display: flex; gap: 2rem; margin-top: 3rem; flex-wrap: wrap; }
+    .status-item { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+ 
+    .section-wrapper { max-width: 900px; margin: 0 auto; padding: 5rem 2rem; }
+ 
+    .section-label {
+      font-family: var(--mono); font-size: 11px; color: var(--accent);
+      letter-spacing: 0.2em; margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+ 
+    h2 { font-size: 2rem; font-weight: 800; margin-bottom: 3rem; letter-spacing: -0.01em; }
+ 
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+    }
+    .skill-cell { background: var(--bg2); padding: 1.5rem; transition: background 0.2s; }
+    .skill-cell:hover { background: var(--bg3); }
+    .skill-icon { font-family: var(--mono); font-size: 10px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .skill-name { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .tag { font-family: var(--mono); font-size: 10px; padding: 2px 8px; border-radius: 3px; background: rgba(0,229,160,0.08); color: var(--accent); border: 1px solid rgba(0,229,160,0.15); }
+    .tag.blue { background: rgba(14,165,233,0.08); color: var(--accent2); border-color: rgba(14,165,233,0.15); }
+ 
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .project-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; transition: border-color 0.2s, transform 0.2s; }
+    .project-card:hover { border-color: rgba(0,229,160,0.3); transform: translateY(-2px); }
+    .project-num { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 1rem; letter-spacing: 0.1em; }
+    .project-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .project-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 4px; }
+ 
+    .exp-list { display: flex; flex-direction: column; }
+    .exp-item { display: grid; grid-template-columns: 140px 1fr; gap: 2rem; padding: 2rem 0; border-bottom: 1px solid var(--border); }
+    .exp-item:first-child { border-top: 1px solid var(--border); }
+    .exp-date { font-family: var(--mono); font-size: 11px; color: var(--muted); padding-top: 3px; }
+    .exp-company { font-size: 0.8rem; color: var(--accent); font-family: var(--mono); margin-bottom: 4px; }
+    .exp-role { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .exp-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+ 
+    .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .cert-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.25rem; display: flex; align-items: flex-start; gap: 12px; }
+    .cert-icon { width: 32px; height: 32px; border-radius: 6px; background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--mono); font-size: 9px; color: var(--accent); font-weight: 700; }
+    .cert-name { font-size: 0.82rem; font-weight: 600; line-height: 1.4; }
+    .cert-issuer { font-size: 0.75rem; color: var(--muted); font-family: var(--mono); margin-top: 2px; }
+ 
+    .contact-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 3rem; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.5rem; }
+    .contact-email { font-family: var(--mono); font-size: 1.1rem; color: var(--accent); }
+    .contact-links { display: flex; gap: 1rem; }
+ 
+    footer { border-top: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; max-width: 900px; margin: 0 auto; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+ 
+    .terminal-line { font-family: var(--mono); font-size: 12px; color: var(--muted); background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 0.75rem 1rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 8px; }
+    .terminal-line span { color: var(--accent); }
+ 
+    @media (max-width: 600px) {
+      .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      nav { padding: 1rem; }
+      .nav-links { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+ 
+<div class="noise"></div>
+ 
+<nav>
+  <div class="nav-logo">WN.DEV</div>
+  <div class="nav-links">
+    <a href="#about">about</a>
+    <a href="#projects">projects</a>
+    <a href="#experience">xp</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+ 
+<section class="hero" id="about">
+  <div class="grid-bg"></div>
+  <div class="hero-content">
+    <h1>Wassim<br><span class="highlight">Nsir</span></h1>
+    <p class="hero-desc">
+      Ingénieur en systèmes embarqués & IoT. Passionné par l'électronique, le développement bas niveau et les interfaces intelligentes. Licence EEA — FSM Monastir.
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="https://github.com/wassim-24" target="_blank">github.com/wassim-24</a>
+      <a class="btn btn-outline" href="#contact">Me contacter</a>
+    </div>
+    <div class="status-bar">
+      <div class="status-item"><div class="dot"></div> Monastir, Tunisie</div>
+      <div class="status-item"><div class="dot"></div> Français · Anglais C1</div>
+      <div class="status-item"><div class="dot"></div> Disponible sept. 2026</div>
+    </div>
+  </div>
+</section>
+ 
+<section id="skills">
+  <div class="section-wrapper">
+    <div class="section-label">01 — compétences</div>
+    <h2>Stack technique</h2>
+    <div class="terminal-line"><span>$</span> cat skills.json | grep --color=auto "embedded|iot|python"</div>
+    <div class="skills-grid">
+      <div class="skill-cell">
+        <div class="skill-icon">[ HARDWARE ]</div>
+        <div class="skill-name">Embarqué & Hardware</div>
+        <div class="skill-tags"><span class="tag">Raspberry Pi 4</span><span class="tag">PCB Design</span><span class="tag">Smbus</span><span class="tag">IoT</span></div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-icon">[ SOFTWARE ]</div>
+        <div class="skill-name">Développement</div>
+        <div class="skill-tags"><span class="tag">Python</span><span class="tag">Tkinter</span><span class="tag">Django</span><span class="tag blue">Node.js</span><span class="tag blue">JavaScript</span></div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-icon">[ WEB ]</div>
+        <div class="skill-name">Web & Bases de données</div>
+        <div class="skill-tags"><span class="tag blue">MongoDB</span><span class="tag blue">Firebase</span><span class="tag">HTML/CSS</span><span class="tag">REST API</span></div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-icon">[ SYSADMIN ]</div>
+        <div class="skill-name">Sécurité & Système</div>
+        <div class="skill-tags"><span class="tag">BitLocker</span><span class="tag">Active Directory</span><span class="tag">PowerShell</span><span class="tag blue">Azure AI-900</span></div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-icon">[ DESIGN ]</div>
+        <div class="skill-name">UI/UX & Outils</div>
+        <div class="skill-tags"><span class="tag">Figma</span><span class="tag">Balsamiq</span><span class="tag blue">Git / GitHub</span><span class="tag">Postman</span></div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-icon">[ LANGUES ]</div>
+        <div class="skill-name">Langues</div>
+        <div class="skill-tags"><span class="tag">Arabe</span><span class="tag">Français</span><span class="tag blue">Anglais C1</span><span class="tag">Allemand</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="projects">
+  <div class="section-wrapper">
+    <div class="section-label">02 — projets</div>
+    <h2>Projets sélectionnés</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-num">001 — HARDWARE</div>
+        <div class="project-title">Mini-Testeur Électronique</div>
+        <div class="project-desc">Testeur de modules électroniques sur Raspberry Pi 4 avec interface graphique, conception PCB et authentification Firebase.</div>
+        <div class="project-stack"><span class="tag">Python</span><span class="tag">Tkinter</span><span class="tag">PCB</span><span class="tag blue">Firebase</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">002 — SECURITY</div>
+        <div class="project-title">BitLocker Network Unlock</div>
+        <div class="project-desc">Déploiement chiffrement disque XTS-AES 256-bit en entreprise, GPO Active Directory, PKI et audit PowerShell automatisé.</div>
+        <div class="project-stack"><span class="tag">Windows Server</span><span class="tag">AD</span><span class="tag blue">PowerShell</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">003 — FULLSTACK</div>
+        <div class="project-title">Plateforme Réservation Stades</div>
+        <div class="project-desc">Site responsive avec agenda 7 jours, réservation AJAX, gestion CRUD propriétaires/locataires, annulation 48h.</div>
+        <div class="project-stack"><span class="tag">Django</span><span class="tag blue">MySQL</span><span class="tag">AJAX</span><span class="tag">Tailwind</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">004 — GAME DEV</div>
+        <div class="project-title">Two Player Tetris</div>
+        <div class="project-desc">Jeu Tetris multijoueur en Python avec Pygame, gestion indépendante de 2 joueurs, collisions, rotations et score.</div>
+        <div class="project-stack"><span class="tag">Python</span><span class="tag">Pygame</span><span class="tag blue">OOP</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">005 — FREELANCE</div>
+        <div class="project-title">E-commerce Oasis de Fruits</div>
+        <div class="project-desc">Plateforme e-commerce complète pour client français (Dreux). Gestion produits, panier, auth et générateur de factures PDF.</div>
+        <div class="project-stack"><span class="tag blue">Node.js</span><span class="tag blue">MongoDB</span><span class="tag">HTML/CSS</span></div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">006 — UI/UX</div>
+        <div class="project-title">App Covoiturage Mobile</div>
+        <div class="project-desc">Recherche utilisateur, persona, wireframes Balsamiq et maquettes haute fidélité Figma pour une app de covoiturage.</div>
+        <div class="project-stack"><span class="tag">Figma</span><span class="tag">Balsamiq</span><span class="tag blue">UX Research</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="experience">
+  <div class="section-wrapper">
+    <div class="section-label">03 — expérience</div>
+    <h2>Parcours</h2>
+    <div class="exp-list">
+      <div class="exp-item">
+        <div class="exp-date">Jan–Mar 2025</div>
+        <div>
+          <div class="exp-company">OASIS DE FRUITS — Dreux, France</div>
+          <div class="exp-role">Développeur Freelance</div>
+          <div class="exp-desc">Développement complet d'une plateforme e-commerce et d'un générateur de factures PDF pour un client français.</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">Fév–Mai 2024</div>
+        <div>
+          <div class="exp-company">ELECTROCONTACT — Ksarhlel</div>
+          <div class="exp-role">Stage PFE Licence — Systèmes Embarqués</div>
+          <div class="exp-desc">Développement d'un mini-testeur de modules électroniques : PCB, GUI Python (Tkinter), Raspberry Pi 4, Firebase.</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-date">Août–Sep 2023</div>
+        <div>
+          <div class="exp-company">TUNISAIR TECHNICS — Monastir</div>
+          <div class="exp-role">Stage d'été — Maintenance Aéronautique</div>
+          <div class="exp-desc">Visites quotidiennes aéronefs, conception de compartiments et maintenance APU (Auxiliary Power Unit).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="certifications">
+  <div class="section-wrapper">
+    <div class="section-label">04 — certifications</div>
+    <h2>Certifications</h2>
+    <div class="certs-grid">
+      <div class="cert-card"><div class="cert-icon">AZ</div><div><div class="cert-name">Azure AI Fundamentals (AI-900)</div><div class="cert-issuer">Microsoft — 2025</div></div></div>
+      <div class="cert-card"><div class="cert-icon">C1</div><div><div class="cert-name">CEFR English Test (C1)</div><div class="cert-issuer">EF Standard English Test</div></div></div>
+      <div class="cert-card"><div class="cert-icon">PY</div><div><div class="cert-name">Python for Data Science</div><div class="cert-issuer">Sololearn</div></div></div>
+      <div class="cert-card"><div class="cert-icon">IoT</div><div><div class="cert-name">IoT & Embedded Systems</div><div class="cert-issuer">Coursera</div></div></div>
+      <div class="cert-card"><div class="cert-icon">WEB</div><div><div class="cert-name">HTML · CSS · JS · PHP · MySQL</div><div class="cert-issuer">Shiyar Academy / Sololearn</div></div></div>
+      <div class="cert-card"><div class="cert-icon">PY+</div><div><div class="cert-name">Python Complete Course</div><div class="cert-issuer">Udemy</div></div></div>
+    </div>
+  </div>
+</section>
+ 
+<section id="contact">
+  <div class="section-wrapper">
+    <div class="section-label">05 — contact</div>
+    <h2>Me contacter</h2>
+    <div class="contact-box">
+      <div style="font-size:0.9rem;color:var(--muted);font-family:var(--mono);">// Ouvert aux opportunités M1 en France (alternance bienvenue)</div>
+      <div class="contact-email">wassimnsir62@gmail.com</div>
+      <div style="font-family:var(--mono);font-size:13px;color:var(--muted)">(+216) 55042284</div>
+      <div class="contact-links">
+        <a class="btn btn-primary" href="https://github.com/wassim-24" target="_blank">GitHub</a>
+        <a class="btn btn-outline" href="mailto:wassimnsir62@gmail.com">Email</a>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<footer>
+  <span>© 2025 Wassim Nsir</span>
+  <span style="color:var(--accent)">wassim-24.github.io</span>
+</footer>
+ 
+</body>
+</html>
